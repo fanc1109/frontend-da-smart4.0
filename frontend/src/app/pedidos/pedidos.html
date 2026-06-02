@@ -1,0 +1,137 @@
+<div class="min-h-screen bg-slate-50 p-6 font-sans antialiased text-slate-800">
+  <!-- Header Modernizado -->
+  <header class="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-white p-6 shadow-sm border border-slate-100">
+    <div class="flex items-center gap-4">
+      <img src="assets/smart-ico.png" alt="Logo" class="h-10 w-auto object-contain">
+      <div>
+        <h1 class="text-xl font-bold tracking-tight text-slate-900">SMART 4.0</h1>
+        <p class="text-xs text-slate-500">v3.0.1</p>
+      </div>
+    </div>
+
+    <!-- Seletor de Idiomas Clean -->
+    <div class="flex gap-2 bg-slate-100 p-1.5 rounded-xl">
+      <button (click)="alterarIdioma('br')" class="rounded-lg p-2 transition hover:bg-white hover:shadow-xs">
+        <img src="assets/flags/br.png" alt="BR" class="h-5 w-7 rounded-sm object-cover">
+      </button>
+      <button (click)="alterarIdioma('es')" class="rounded-lg p-2 transition hover:bg-white hover:shadow-xs">
+        <img src="assets/flags/es.png" alt="ES" class="h-5 w-7 rounded-sm object-cover">
+      </button>
+      <button (click)="alterarIdioma('uk')" class="rounded-lg p-2 transition hover:bg-white hover:shadow-xs">
+        <img src="assets/flags/uk.png" alt="UK" class="h-5 w-7 rounded-sm object-cover">
+      </button>
+    </div>
+  </header>
+
+  <main class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- COLUNA ESQUERDA: Formulário Dinâmico -->
+    <section class="lg:col-span-7 bg-white p-6 rounded-2xl shadow-xs border border-slate-100 space-y-6">
+      <div>
+        <h2 class="text-lg font-semibold text-slate-900">Personalização do Pedido</h2>
+        <p class="text-sm text-slate-500">Configure as camadas e especificações técnicas abaixo.</p>
+      </div>
+
+      <!-- Tipo de Produto Principal -->
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-2">Selecione um produto</label>
+        <select [(ngModel)]="pedido.produtoTipo" (change)="ajustarQuantidadeDeBlocos()" 
+                class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:border-indigo-500 focus:ring-indigo-500 shadow-inner">
+          <option value="1">Bloco Simples</option>
+          <option value="2">Bloco Duplo</option>
+          <option value="3">Bloco Triplo</option>
+        </select>
+      </div>
+
+      <!-- Loop Dinâmico de Blocos (Substitui os IDs estáticos antigos das fotos) -->
+      <div *ngFor="let bloco of pedido.blocos; let i = index" class="border-t border-slate-100 pt-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-indigo-600">Configuração do Bloco #{{ bloco.id }}</h3>
+          <span class="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">Nível {{ i + 1 }}</span>
+        </div>
+
+        <!-- Cor da Base do Bloco -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Cor do Bloco</label>
+          <select [(ngModel)]="bloco.corBloco" class="w-full rounded-lg border-slate-200 bg-white p-2.5 text-sm shadow-xs">
+            <option value="0">Selecione uma cor...</option>
+            <option value="1">Preto</option>
+            <option value="2">Vermelho</option>
+            <option value="3">Azul</option>
+          </select>
+        </div>
+
+        <!-- Seções das Lâminas (Esquerda, Frontal, Direita) organizadas em Grid Interno -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+          
+          <!-- Exemplo da Lâmina Esquerda -->
+          <div class="space-y-2">
+            <h4 class="text-xs font-bold text-slate-700 border-b pb-1">Esquerda</h4>
+            <div>
+              <label class="text-[11px] font-medium text-slate-500">Cor</label>
+              <select [(ngModel)]="bloco.esquerda.cor" class="w-full rounded-md border-slate-200 text-xs bg-white p-1.5 shadow-2xs">
+                <option value="1">Vermelho</option>
+                <option value="2">Azul</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[11px] font-medium text-slate-500">Padrão</label>
+              <select [(ngModel)]="bloco.esquerda.padrao" class="w-full rounded-md border-slate-200 text-xs bg-white p-1.5 shadow-2xs">
+                <option value="1">Casa</option>
+                <option value="2">Barco</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Lâmina Frontal -->
+          <div class="space-y-2">
+            <h4 class="text-xs font-bold text-slate-700 border-b pb-1">Frontal</h4>
+            <!-- Inputs similares mapeados via ngModel -->
+          </div>
+
+          <!-- Lâmina Direita -->
+          <div class="space-y-2">
+            <h4 class="text-xs font-bold text-slate-700 border-b pb-1">Direita</h4>
+            <!-- Inputs similares mapeados via ngModel -->
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Ação de Envio -->
+      <div class="pt-4">
+        <button (click)="avancarParaRevisao()" 
+                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm py-3 px-4 rounded-xl shadow-lg shadow-indigo-600/20 transition-all duration-150 transform active:scale-[0.98]">
+          Revisar Pedido
+        </button>
+      </div>
+    </section>
+
+    <!-- COLUNA DIREITA: Visualizador Gráfico 3D Simulado -->
+    <section class="lg:col-span-5 flex flex-col justify-start">
+      <div class="sticky top-6 bg-slate-900 rounded-2xl shadow-xl border border-slate-800 p-6 text-white min-h-[450px] flex flex-col items-center justify-center overflow-hidden">
+        <div class="absolute top-4 left-4">
+          <span class="inline-flex items-center gap-x-1.5 rounded-full bg-emerald-500/10 px-2 py-1 text-xs font-medium text-emerald-400 ring-1 ring-inset ring-emerald-500/20">
+            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            Visualização de Camadas
+          </span>
+        </div>
+
+        <!-- Renderizador Inteligente das Camadas Absolutas -->
+        <div class="relative w-64 h-64 flex items-center justify-center">
+          <ng-container *ngFor="let bloco of pedido.blocos">
+            <!-- Camada Base do Bloco -->
+            <img [src]="'assets/Smart_files/BlocoCor' + bloco.corBloco + '.png'" 
+                 class="absolute max-w-full h-auto transition-all duration-300 z-10" alt="Bloco">
+
+            <!-- Lâminas Sobrepostas baseadas na seleção dinâmica -->
+            <img *ngIf="bloco.esquerda.cor" [src]="'assets/Smart_files/lamina1-' + bloco.esquerda.cor + '.png'" 
+                 class="absolute max-w-full h-auto z-20 pointer-events-none" alt="Lâmina Esquerda">
+                 
+            <img *ngIf="bloco.esquerda.padrao" [src]="'assets/Smart_files/padrao1-' + bloco.esquerda.padrao + '.png'" 
+                 class="absolute max-w-full h-auto z-30 filter invert" alt="Padrão Esquerda">
+          </ng-container>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

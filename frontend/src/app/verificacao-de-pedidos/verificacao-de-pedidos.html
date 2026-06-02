@@ -1,0 +1,44 @@
+<div class="max-w-4xl mx-auto p-6 font-sans">
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+    <!-- Header de Confirmação -->
+    <div class="bg-slate-50 px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+      <div>
+        <h2 class="text-base font-semibold text-slate-900">Resumo da Verificação de Pedidos</h2>
+        <p class="text-xs text-slate-500 mt-1">Valide os detalhes técnicos antes de sincronizar com a API.</p>
+      </div>
+      <span class="text-xs font-mono bg-slate-200 text-slate-700 px-2.5 py-1 rounded-md">JSON Payload Ready</span>
+    </div>
+
+    <!-- Tabela / Lista de Especificações -->
+    <div class="p-6 divide-y divide-slate-100">
+      <div *ngFor="let item of pedido.blocos" class="py-4 first:pt-0 last:pb-0 grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+        <div class="text-sm font-bold text-slate-800">Andar #{{ item.id }}</div>
+        
+        <div class="text-xs text-slate-600">
+          <span class="block font-medium text-slate-400 uppercase text-[10px]">Lâmina Esquerda</span>
+          Cor: {{ item.esquerda.cor }} | Padrão: {{ item.esquerda.padrao }}
+        </div>
+        
+        <div class="text-xs text-slate-600">
+          <span class="block font-medium text-slate-400 uppercase text-[10px]">Lâmina Frontal</span>
+          Cor: {{ item.frontal.cor }} | Padrão: {{ item.frontal.padrao }}
+        </div>
+
+        <div class="text-xs text-slate-600">
+          <span class="block font-medium text-slate-400 uppercase text-[10px]">Texto Customizado</span>
+          <span class="italic font-mono text-indigo-600 bg-indigo-50 px-1 rounded">{{ item.frontal.texto || 'Nenhum' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ações Finais que acionam o NestJS -->
+    <div class="bg-slate-50 px-6 py-4 flex items-center justify-end gap-3 border-t border-slate-100">
+      <button (click)="voltarAoEditor()" class="text-sm font-medium text-slate-600 hover:text-slate-800 px-4 py-2 transition">
+        Voltar e Corrigir
+      </button>
+      <button (click)="enviarParaNestJS()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-5 py-2.5 rounded-xl shadow-xs transition">
+        Confirmar e Enviar Pedido
+      </button>
+    </div>
+  </div>
+</div>
